@@ -1,1 +1,1 @@
-# favorite_streamers
+Making this script to hit Twitch.tv's API and pull your followed streamers current viewership.
