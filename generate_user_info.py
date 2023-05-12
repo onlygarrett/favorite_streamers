@@ -7,9 +7,18 @@ from config_gen import generate_twitch_user_config
 parser = ConfigParser()
 
 if not exists('config.ini'):
+    print("No config file detected.")
     generate_twitch_user_config()
+else:
+    parser.read('config.ini')
+    parsed_config = parser['config']
+    access_token = parsed_config['accessToken']
+    client_id = parsed_config['clientId']
     
-    
+    regenerate_choice = input('Config file detected. Would you like to update the config? [no]: ') or 'no'
+    if regenerate_choice.lower() == 'yes':
+        generate_twitch_user_config()
+
 parser.read('config.ini')
 
 parsed_config = parser['config']
