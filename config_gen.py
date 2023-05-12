@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from configparser import ConfigParser
 
 def generate_twitch_user_config():
