@@ -1,3 +1,4 @@
 config.ini
 __pycache__/*
 config copy.ini
+src/__pycache__/*
