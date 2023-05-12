@@ -6,19 +6,23 @@ from configparser import ConfigParser
 parser = ConfigParser()
 
 def generate():
+    # checking for config file
     if not exists('src/config.ini'):
         print("No config file detected.")
         generate_twitch_user_config(parser)
     else:
+        # reading config
         parser.read('src/config.ini')
         parsed_config = parser['config']
         access_token = parsed_config['accessToken']
         client_id = parsed_config['clientId']
         
+        # prompt for update
         regenerate_choice = input('Config file detected. Would you like to update the config? [no]: ') or 'no'
         if regenerate_choice.lower() == 'yes':
             generate_twitch_user_config(parser)
 
+    # re-reading just in case of update
     parser.read('src/config.ini')
 
     parsed_config = parser['config']
@@ -26,12 +30,14 @@ def generate():
     client_id = parsed_config['clientId']
     user_id = parsed_config['userId']
 
+    # request headers
     headers = {
         'Accept': 'application/vnd.twitchtv.v5+json',
         'Client-ID': client_id,
         'Authorization': 'Bearer ' + access_token
     }
 
+    # hitting API
     try:
         response = requests.get('https://api.twitch.tv/helix/streams/followed?user_id=' + user_id, headers=headers)
         
@@ -42,15 +48,17 @@ def generate():
         print('Error with config values, please make sure they are correct.')
         sys.exit(1)
         
+    # bonus prompt
     certain_game = input('Do you want to display only specific games? If so enter the name of the game: ') or ""
 
-        
+    # headers for print
     print ("\nCHANNEL " + ' '*13 + "GAME" + ' '*37 + "VIEWERS" + ' '*8 + "\n" + '-'*80)
-
-
+    
+    # bunch of prints w/ formatting
     for i in range (0, follow_count):
         channel_name = data[i]["user_name"]
         channel_game = data[i]["game_name"]
+        # checking for specific game prompt
         if certain_game and channel_game.lower() != certain_game.lower():
             continue
         
