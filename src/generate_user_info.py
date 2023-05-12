@@ -3,7 +3,9 @@ from os.path import exists
 from .config_gen import generate_twitch_user_config
 from configparser import ConfigParser
 
-def generate(parser: ConfigParser):
+parser = ConfigParser()
+
+def generate():
     if not exists('src/config.ini'):
         print("No config file detected.")
         generate_twitch_user_config(parser)
