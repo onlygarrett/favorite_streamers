@@ -12,5 +12,5 @@ def generate_twitch_user_config(parser: ConfigParser):
         "userId": user_id
     }
     
-    with open("config.ini", 'w') as configuration:
+    with open("src/backend/config.ini", 'w') as configuration:
         parser.write(configuration)
