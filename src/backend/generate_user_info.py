@@ -7,12 +7,12 @@ parser = ConfigParser()
 
 def generate():
     # checking for config file
-    if not exists('src/config.ini'):
+    if not exists('src/backend/config.ini'):
         print("No config file detected.")
         generate_twitch_user_config(parser)
     else:
         # reading config
-        parser.read('src/config.ini')
+        parser.read('src/backend/config.ini')
         parsed_config = parser['config']
         access_token = parsed_config['accessToken']
         client_id = parsed_config['clientId']
@@ -23,7 +23,7 @@ def generate():
             generate_twitch_user_config(parser)
 
     # re-reading just in case of update
-    parser.read('src/config.ini')
+    parser.read('src/backend/config.ini')
 
     parsed_config = parser['config']
     access_token = parsed_config['accessToken']
@@ -84,3 +84,6 @@ def generate():
 
     if (i == follow_count-1):
         print ('-'*80)
+        
+if __name__ == "__main__":
+    generate()

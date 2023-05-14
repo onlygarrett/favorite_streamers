@@ -1,4 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 config.ini
-__pycache__/*
 config copy.ini
-src/__pycache__/*
+src/backend/config.ini
+bin/streamer_app.exe
+build/streamer_app/Analysis-00.toc
+build/streamer_app/base_library.zip
+build/streamer_app/EXE-00.toc
+build/streamer_app/PKG-00.toc
+build/streamer_app/PYZ-00.pyz
+build/streamer_app/PYZ-00.toc
+build/streamer_app/streamer_app.exe.manifest
+build/streamer_app/streamer_app.pkg
+build/streamer_app/warn-streamer_app.txt
+build/streamer_app/xref-streamer_app.html
+dist/favorite_streamers-0.0.1-py3-none-any.whl
+dist/favorite_streamers-0.0.1.tar.gz
+src/favorite_streamers.egg-info/dependency_links.txt
+src/favorite_streamers.egg-info/PKG-INFO
+src/favorite_streamers.egg-info/SOURCES.txt
+src/favorite_streamers.egg-info/top_level.txt
