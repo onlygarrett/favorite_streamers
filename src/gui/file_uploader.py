@@ -2,11 +2,14 @@
 from nicegui import ui
 from pathlib import Path
 from typing import Dict, Optional
+from src.backend.config_gen import generate_twitch_user_config_from_file
+from src.backend import ConfigImportError
 
 from nicegui import ui
 
+# most of this was from nicegui
 
-class local_file_picker(ui.dialog):
+class LocalFilePicker(ui.dialog):
     
     def __init__(self, directory: str, *,
                  upper_limit: Optional[str] = ..., multiple: bool = False, show_hidden_files: bool = False) -> None:
@@ -59,19 +62,35 @@ class local_file_picker(ui.dialog):
                 'path': str(self.path.parent),
             })
         self.grid.update()
+      
+    # added this to handle the actual saving of file because nicegui doesn't
+    def handle_upload(self, file: str):
+        generate_twitch_user_config_from_file(file)
+            
 
     async def handle_double_click(self, msg: Dict) -> None:
         self.path = Path(msg['args']['data']['path'])
         if self.path.is_dir():
             self.update_grid()
         else:
+            try:
+                self.handle_upload(self.path)
+            except ConfigImportError as e: # my error handling
+                ui.notify(e)
+                return
             self.submit([str(self.path)])
 
     async def _handle_ok(self):
         rows = await ui.run_javascript(f'getElement({self.grid.id}).gridOptions.api.getSelectedRows()')
-        self.submit([r['path'] for r in rows])
+        try:
+            self.handle_upload(rows[0]['path'])
+        except ConfigImportError as e: # my error handling
+            ui.notify(e)
+            return
+        self.submit(str(rows[0]['path']))
 
 
 async def pick_file() -> None:
-    result = await local_file_picker(f'{Path.cwd()}', multiple=True)
+    result = await LocalFilePicker(f'{Path.cwd()}', multiple=True, upper_limit=None)
     ui.notify(f'You chose {result}')
+    return
