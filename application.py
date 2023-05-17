@@ -1,3 +1,4 @@
 if __name__ == "__main__":
-    from src.gui import gui_generation
-    
+    from src import UiBuilder
+    builder = UiBuilder()
+    builder.start_gui()
